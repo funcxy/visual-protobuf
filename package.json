@@ -4,12 +4,16 @@
   "private": true,
   "dependencies": {
     "@types/jest": "^19.2.2",
+    "@types/material-ui": "^0.17.1",
     "@types/node": "^7.0.12",
     "@types/react": "^15.0.21",
     "@types/react-dom": "^0.14.23",
+    "@types/react-tap-event-plugin": "0.0.30",
     "downloadjs": "^1.4.7",
+    "material-ui": "^0.17.4",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "react-scripts-ts": "1.2.0"

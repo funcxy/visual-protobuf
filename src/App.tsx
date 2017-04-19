@@ -4,6 +4,10 @@ import ZFetch from './fetch';
 const download = require('downloadjs');
 const logo = require('./logo.svg');
 
+import * as injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
 class App extends React.Component<{}, null> {
   handleSubmit = () => {
     ZFetch('http://localhost:4000/')('POST')('/')({body: (this.refs['proto'] as HTMLTextAreaElement).value}).then(v => v.blob()).then(v => download(v));
@@ -18,6 +22,7 @@ class App extends React.Component<{}, null> {
         <p className="App-intro">
           A visual generator of Protocol Buffer, the Google's data interchange format.
         </p>
+        <input type="text" placeholder="Message Name"/>
         <textarea name="proto" id="proto" ref="proto" cols={30} rows={10}/>
         <br/>
         <button id="btn-generate" onClick={this.handleSubmit}>Generate</button>
