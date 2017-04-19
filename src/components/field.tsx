@@ -7,6 +7,8 @@ import Subject from 'material-ui/svg-icons/action/subject';
 import Delete from 'material-ui/svg-icons/action/delete';
 import IconButton from 'material-ui/IconButton';
 
+import './field.css';
+
 const types = [
     'double', 'float',
     'int32', 'int64',
@@ -28,13 +30,9 @@ interface FieldProps {
 class Field extends React.Component<FieldProps, null> {
     render() {
         return (
-            <div style={{
-                position: 'relative',
-                paddingLeft: 35,
-                marginBottom: '2em'
-            }}>
-                <Subject style={{ position: 'absolute', top: 38, left: 0 }} />
-                <IconButton style={{ position: 'absolute', top: 60, left: -12 }} onTouchTap={e => this.props.onDelete()}>
+            <div className="field-root">
+                <Subject className="field-icon" />
+                <IconButton className="field-delete" onTouchTap={e => this.props.onDelete()}>
                     <Delete />
                 </IconButton>
                 <TextField

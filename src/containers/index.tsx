@@ -8,7 +8,6 @@ import FileDownload from 'material-ui/svg-icons/file/file-download';
 import Add from 'material-ui/svg-icons/content/add';
 import Checkbox from 'material-ui/Checkbox';
 
-
 interface MessageField {
     name: string;
     type: string;
@@ -55,14 +54,24 @@ class Index extends React.Component<null, IndexState> {
             `}`
         );
         let res = lines.join('\n');
-        console.log(res);
+        console.log(res); // tslint:disable-line
     }
     render() {
         return (
             <div>
                 <AppBar title="Visual Protocol Buffer" />
                 <div style={{ margin: '0 auto', width: '80%' }}>
-                    <p>Visual Protocol Buffer is an online <a href="https://developers.google.com/protocol-buffers/">Protocol Buffer (protobuf)</a> editor.</p>
+                    <p>Visual Protocol Buffer is an online 
+                        <a href="https://developers.google.com/protocol-buffers/"> Protocol Buffer (protobuf) </a> 
+                        editor, which allows you create arbitrary application-layer protocol.
+                    </p>
+                    <p>
+                        Application-layer protocol defines format of message in bytes.
+                    </p>
+                    <p>
+                        Protocol Buffer can define a subset of TCP/IP protocols, 
+                        which are less weight, high performance and platform free.
+                    </p>
                     <TextField
                         floatingLabelText="Message Name"
                         fullWidth={true}
@@ -70,33 +79,51 @@ class Index extends React.Component<null, IndexState> {
                     />
                     <Subheader>Message Fields</Subheader>
                     {
-                        this.state.fields.map((v, i) => <Field
-                            key={i}
-                            name={v.name}
-                            type={v.type}
-                            repeated={v.repeated}
-                            onNameChange={this.handleFieldNameChange(i)}
-                            onDelete={this.handleFieldDelete(i)}
-                            onTypeChange={this.handleFieldTypeChange(i)}
-                            onRepeatedChange={this.handleFieldRepeatedChange(i)}
-                        />)
+                        this.state.fields.map((v, i) => (
+                            <Field
+                                key={i}
+                                name={v.name}
+                                type={v.type}
+                                repeated={v.repeated}
+                                onNameChange={this.handleFieldNameChange(i)}
+                                onDelete={this.handleFieldDelete(i)}
+                                onTypeChange={this.handleFieldTypeChange(i)}
+                                onRepeatedChange={this.handleFieldRepeatedChange(i)}
+                            />
+                        ))
                     }
-                    <RaiseButton label="Append Field" secondary={true} onTouchTap={this.handleAppendField} icon={<Add/>}/>
+                    <RaiseButton
+                        label="Append Field"
+                        secondary={true}
+                        onTouchTap={this.handleAppendField}
+                        icon={<Add />}
+                    />
                     <Subheader>Target language options</Subheader>
-                    <p>Choose target language(s), we will generate the chosen language(s) code for you.</p>
-                    <Checkbox label="C++"/>
-                    <Checkbox label="Java"/>
-                    <Checkbox label="Python"/>
-                    <Checkbox label="Objective-C"/>
-                    <Checkbox label="C#"/>
-                    <Checkbox label="JavaNano"/>
-                    <Checkbox label="JavaScript"/>
-                    <Checkbox label="Ruby"/>
-                    <Checkbox label="Go"/>
-                    <Checkbox label="PHP"/>
-                    <br/>
-                    <RaiseButton label="Generate" primary={true} onTouchTap={this.handleGenerate} icon={<FileDownload/>}/>
-                    <p>For the chosen language except JavaNano and Go, you need <a href="https://github.com/google/protobuf/releases">download</a> and install corresponding runtime library.</p>
+                    <p>
+                        Choose target language(s), we will generate the chosen language(s) code for you.
+                        Generally, they are plain object classes.
+                    </p>
+                    <Checkbox label="C++" />
+                    <Checkbox label="Java" />
+                    <Checkbox label="Python" />
+                    <Checkbox label="Objective-C" />
+                    <Checkbox label="C#" />
+                    <Checkbox label="JavaNano" />
+                    <Checkbox label="JavaScript" />
+                    <Checkbox label="Ruby" />
+                    <Checkbox label="Go" />
+                    <Checkbox label="PHP" />
+                    <br />
+                    <RaiseButton
+                        label="Generate"
+                        primary={true}
+                        onTouchTap={this.handleGenerate}
+                        icon={<FileDownload />}
+                    />
+                    <p>For the chosen language except JavaNano and Go, you need
+                        <a href="https://github.com/google/protobuf/releases"> download </a>
+                        and install corresponding runtime library.
+                    </p>
                 </div>
             </div>
         );

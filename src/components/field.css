@@ -1,0 +1,17 @@
+.field-root {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 2em;
+}
+
+.field-icon {
+    position: absolute;
+    top: 38px;
+    left: 0;
+}
+
+.field-delete {
+    position: absolute !important;
+    top: 60px;
+    left: -12px;
+}
