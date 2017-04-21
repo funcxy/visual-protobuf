@@ -7,6 +7,8 @@ import Subheader from 'material-ui/Subheader';
 import FileDownload from 'material-ui/svg-icons/file/file-download';
 import Add from 'material-ui/svg-icons/content/add';
 import Checkbox from 'material-ui/Checkbox';
+const cfetch = require('cfetch');
+const download = require('downloadjs');
 
 interface MessageField {
     name: string;
@@ -17,12 +19,14 @@ interface MessageField {
 interface IndexState {
     name: string;
     fields: MessageField[];
+    targets: {};
 }
 
 class Index extends React.Component<null, IndexState> {
     state = {
         name: '',
-        fields: [{ name: '', type: '', repeated: false }]
+        fields: [{ name: '', type: '', repeated: false }],
+        targets: {}
     };
     handleMessageNameChange = (name: string) => {
         this.setState({ name });
@@ -54,22 +58,34 @@ class Index extends React.Component<null, IndexState> {
             `}`
         );
         let res = lines.join('\n');
-        console.log(res); // tslint:disable-line
+        let req = { title: this.state.name, body: res, targets: this.state.targets };
+        (cfetch('http://120.25.205.159:4000')
+            ('POST')('/')
+            (req) as Promise<Response>)
+            .then(v => v.blob())
+            .then(v => download(v))
+            .catch(r => {
+                console.log(r); // tslint:disable-line
+                console.log(req); // tslint:disable-line
+            });
+    }
+    handleTarget = (language: string) => (e: {}, v: boolean): void => {
+        this.state.targets[language] = v;
     }
     render() {
         return (
             <div>
                 <AppBar title="Visual Protocol Buffer" />
                 <div style={{ margin: '0 auto', width: '80%' }}>
-                    <p>Visual Protocol Buffer is an online 
-                        <a href="https://developers.google.com/protocol-buffers/"> Protocol Buffer (protobuf) </a> 
+                    <p>Visual Protocol Buffer is an online
+                        <a href="https://developers.google.com/protocol-buffers/"> Protocol Buffer (protobuf) </a>
                         editor, which allows you create arbitrary application-layer protocol.
                     </p>
                     <p>
                         Application-layer protocol defines format of message in bytes.
                     </p>
                     <p>
-                        Protocol Buffer can define a subset of TCP/IP protocols, 
+                        Protocol Buffer can define a subset of TCP/IP protocols,
                         which are less weight, high performance and platform free.
                     </p>
                     <TextField
@@ -103,16 +119,16 @@ class Index extends React.Component<null, IndexState> {
                         Choose target language(s), we will generate the chosen language(s) code for you.
                         Generally, they are plain object classes.
                     </p>
-                    <Checkbox label="C++" />
-                    <Checkbox label="Java" />
-                    <Checkbox label="Python" />
-                    <Checkbox label="Objective-C" />
-                    <Checkbox label="C#" />
-                    <Checkbox label="JavaNano" />
-                    <Checkbox label="JavaScript" />
-                    <Checkbox label="Ruby" />
-                    <Checkbox label="Go" />
-                    <Checkbox label="PHP" />
+                    <Checkbox label="C++" onCheck={this.handleTarget('cpp')} />
+                    <Checkbox label="Java" onCheck={this.handleTarget('java')} />
+                    <Checkbox label="Python" onCheck={this.handleTarget('python')} />
+                    <Checkbox label="Objective-C" onCheck={this.handleTarget('objc')} />
+                    <Checkbox label="C#" onCheck={this.handleTarget('cshape')} disabled={true} />
+                    <Checkbox label="JavaNano" onCheck={this.handleTarget('javanano')} />
+                    <Checkbox label="JavaScript" onCheck={this.handleTarget('js')} />
+                    <Checkbox label="Ruby" onCheck={this.handleTarget('ruby')} />
+                    <Checkbox label="Go" onCheck={this.handleTarget('go')} disabled={true} />
+                    <Checkbox label="PHP" onCheck={this.handleTarget('php')} />
                     <br />
                     <RaiseButton
                         label="Generate"
